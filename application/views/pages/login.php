@@ -1,7 +1,7 @@
 <div style="display:flex; justify-content:center">
    <div class="card" style="width: 18rem;">
       <div class="card-body">
-         <h5 class="card-title">Login</h5>
+         <h5 class="card-title text-center">Login</h5>
          <form action="login/singin" method="post" id="form-login">
             <div class="mb-3">
                <label for="exampleInputEmail1" class="form-label">Email address</label>

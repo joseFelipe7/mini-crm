@@ -1,14 +1,17 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Cadastro extends CI_Controller {
+class Colaboradores extends CI_Controller {
 
    public function index(){
       $data = array('title'=>'Home') ;
       $this->template->load('template_dashboard', 'pages/collaborator/list', $data);
    }
+   public function novo(){
+      $data = array('title'=>'Home') ;
+      $this->template->load('template_dashboard', 'pages/collaborator/form', $data);
+   }
    public function register(){
-      $this->load->library('session');
       $this->load->model('Collaborator');
 
       try {
@@ -19,20 +22,22 @@ class Cadastro extends CI_Controller {
          $this->form_validation->set_rules('password', 'Senha', 'trim|required');
 
          if(!$this->form_validation->run()) return redirect('/login', 'refresh');
-         
+
          $input = $this->input->post();
+         
          $collaborator = $this->Collaborator->index($input['email']);
 
-         if(!$collaborator) return redirect('/login', 'refresh');
+         if($collaborator){
+            return redirect('/login', 'refresh');
+         }
          
-         if(!password_verify($input['password'], $collaborator->password)) return redirect('/login', 'refresh');
+         $this->Collaborator->createLogin(["name"=> $input['name'],"email"=>$input['email'], "pass"=>password_hash($input['password'], PASSWORD_BCRYPT)]);
 
-         $this->session->set_userdata("user", $collaborator);
-
-         return redirect('/home', 'refresh');
+        
+         return redirect('/colaboradores', 'refresh');
           
       }catch (\Throwable $th) {
-         $th->getMessage();
+         print_r($th->getMessage());
          //return redirect('/login', 'refresh');
       }      
    }
