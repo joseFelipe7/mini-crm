@@ -24,4 +24,4 @@
       </div>
    </div>
 </div>
-<script src="<?=base_url('public/assets/js/login.js');?>"></script>
+<script src="<?=base_url('public/assets/js/collaborator/form.js');?>"></script>

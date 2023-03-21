@@ -3,16 +3,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Colaboradores extends CI_Controller {
 
+   
+   public function __construct()
+   {
+      parent::__construct();
+      $this->load->model('CollaboratorModel', 'collaborator');
+   }
+   
    public function index(){
-      $data = array('title'=>'Home') ;
+      $data = array() ;
+      $data['title'] = 'Colaboradores';
+      $this->load->library('pagination_custom');
+      print_r($this->pagination_custom->test());
+      
+      //$data['collaborator'] = $this->collaborator->list();
+      $data['collaborator'] = [];
       $this->template->load('template_dashboard', 'pages/collaborator/list', $data);
    }
    public function novo(){
       $data = array('title'=>'Home') ;
+      
       $this->template->load('template_dashboard', 'pages/collaborator/form', $data);
    }
    public function register(){
-      $this->load->model('Collaborator');
+      
 
       try {
          $this->load->library('form_validation');
@@ -25,13 +39,13 @@ class Colaboradores extends CI_Controller {
 
          $input = $this->input->post();
          
-         $collaborator = $this->Collaborator->index($input['email']);
+         $collaborator = $this->collaborator->index($input['email']);
 
          if($collaborator){
             return redirect('/login', 'refresh');
          }
          
-         $this->Collaborator->createLogin(["name"=> $input['name'],"email"=>$input['email'], "pass"=>password_hash($input['password'], PASSWORD_BCRYPT)]);
+         $this->collaborator->createLogin(["name"=> $input['name'],"email"=>$input['email'], "pass"=>password_hash($input['password'], PASSWORD_BCRYPT)]);
 
         
          return redirect('/colaboradores', 'refresh');

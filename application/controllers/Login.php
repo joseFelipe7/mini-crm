@@ -9,7 +9,7 @@ class Login extends CI_Controller {
    }
    public function singin(){
       $this->load->library('session');
-      $this->load->model('Collaborator');
+      $this->load->model('CollaboratorModel', 'collaborator');
 
       try {
          $this->load->library('form_validation');
@@ -20,7 +20,7 @@ class Login extends CI_Controller {
          if(!$this->form_validation->run()) return redirect('/login', 'refresh');
          
          $input = $this->input->post();
-         $collaborator = $this->Collaborator->index($input['email']);
+         $collaborator = $this->collaborator->index($input['email']);
 
          if(!$collaborator) return redirect('/login', 'refresh');;
          

@@ -4,109 +4,41 @@
 			<h5 class="card-title">Colaboradores</h5>
 			<div style="display: flex; justify-content: space-between;" class="mt-4">
 				<div style="display: flex; flex-direction: column;">
-					<input type="text" placeholder="Pesquisar...">
+					<input type="text" placeholder="Pesquisar..." id="search-collaborator">
 					<small>Buscar colaboradores</small>
 				</div>
-				<button>Novo colaborador</button>
+				<a href="<?= base_url()?>colaboradores/novo"> <button>Novo colaborador</button></a>
 			</div>
 			<table class="table table-striped table-centered mb-0">
 				<thead>
 					<tr>
-						<th>User</th>
-						<th>Account No.</th>
-						<th>Balance</th>
+						<th>#</th>
+						<th>Nome</th>
+						<th>Email</th>
 						<th>Action</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
-						<td class="table-user">
-							<img src="assets/images/users/avatar-2.jpg" alt="table-user" class="me-2 rounded-circle" />
-							Risa D. Pearson
-						</td>
-						<td>AC336 508 2157</td>
-						<td>July 24, 1950</td>
-						<td class="table-action">
-							<a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
-							<a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-						</td>
-					</tr>
-					<tr>
-						<td class="table-user">
-							<img src="assets/images/users/avatar-3.jpg" alt="table-user" class="me-2 rounded-circle" />
-							Ann C. Thompson
-						</td>
-						<td>SB646 473 2057</td>
-						<td>January 25, 1959</td>
-						<td class="table-action">
-							<a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
-							<a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-						</td>
-					</tr>
-					<tr>
-						<td class="table-user">
-							<img src="assets/images/users/avatar-4.jpg" alt="table-user" class="me-2 rounded-circle" />
-							Paul J. Friend
-						</td>
-						<td>DL281 308 0793</td>
-						<td>September 1, 1939</td>
-						<td class="table-action">
-							<a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
-							<a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-						</td>
-					</tr>
-					<tr>
-						<td class="table-user">
-							<img src="assets/images/users/avatar-5.jpg" alt="table-user" class="me-2 rounded-circle" />
-							Sean C. Nguyen
-						</td>
-						<td>CA269 714 6825</td>
-						<td>February 5, 1994</td>
-						<td class="table-action">
-							<a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
-							<a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-						</td>
-					</tr>
-               <tr>
-						<td class="table-user">
-							<img src="assets/images/users/avatar-3.jpg" alt="table-user" class="me-2 rounded-circle" />
-							Ann C. Thompson
-						</td>
-						<td>SB646 473 2057</td>
-						<td>January 25, 1959</td>
-						<td class="table-action">
-							<a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
-							<a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-						</td>
-					</tr>
-					<tr>
-						<td class="table-user">
-							<img src="assets/images/users/avatar-4.jpg" alt="table-user" class="me-2 rounded-circle" />
-							Paul J. Friend
-						</td>
-						<td>DL281 308 0793</td>
-						<td>September 1, 1939</td>
-						<td class="table-action">
-							<a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
-							<a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-						</td>
-					</tr>
-					<tr>
-						<td class="table-user">
-							<img src="assets/images/users/avatar-5.jpg" alt="table-user" class="me-2 rounded-circle" />
-							Sean C. Nguyen
-						</td>
-						<td>CA269 714 6825</td>
-						<td>February 5, 1994</td>
-						<td class="table-action">
-							<a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
-							<a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-						</td>
-					</tr>
+				<tbody id="tbody-collaborator">
+					<?php foreach ($collaborator as $key => $value){ ?>
+						<tr>
+							<td class="table-user">
+								<!-- <img src="assets/images/users/avatar-2.jpg" alt="table-user" class="me-2 rounded-circle" /> -->
+								<?= $value->id ?>
+							</td>
+							<td><?= $value->name ?></td>
+							<td><?= $value->email ?></td>
+							<td class="table-action">
+								<a href="javascript: void(0);" class="action-icon"> <i class="fa-sharp fa-solid fa-pen-to-square"></i></a>
+								<a href="javascript: void(0);" class="action-icon"> <i class="fa-sharp fa-solid fa-trash"></i></a>
+							</td>
+						</tr>
+					<?php } ?>
+					
+					
 				</tbody>
 			</table>
 			<div class="mt-4">
-				<ul class="pagination">
+				<ul class="pagination" id="pagination-container">
 					<li class="page-item disabled">
 						<a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
 					</li>
@@ -124,3 +56,4 @@
 		</div>
 	</div>
 </div>
+<script src="<?=base_url('public/assets/js/collaborator/list.js');?>"></script>
