@@ -25,9 +25,43 @@ class Colaboradores extends CI_Controller {
       
       $this->template->load('template_dashboard', 'pages/collaborator/form', $data);
    }
-   public function register(){
-      
+   public function editar($id){
+      $data = array('title'=>'Home') ;
+      $data['collaborator'] = $this->collaborator->getOne($id);
+      $this->template->load('template_dashboard', 'pages/collaborator/form', $data);
+   }
+   public function save(){
+      try {
+         $this->load->library('form_validation');
+         $this->form_validation->set_data($this->input->post());
+         $this->form_validation->set_rules('name', 'Nome', 'trim|required');
+         $this->form_validation->set_rules('email', 'E-mail', 'trim|required');
+         $this->form_validation->set_rules('password', 'Senha', 'trim|required');
 
+         if(!$this->form_validation->run()) return redirect('/login', 'refresh');
+
+         $input = $this->input->post();
+         
+         $collaborator = $this->collaborator->index($input['email']);
+
+         if($collaborator && $collaborator->id != $input['id']) return redirect('/login', 'refresh');
+
+         if($input['id'] != 0){
+            $this->collaborator->update($input['id'], ["name"=> $input['name'],"email"=>$input['email']]);
+
+         }else{
+            $this->collaborator->createLogin(["name"=> $input['name'],"email"=>$input['email'], "pass"=>password_hash($input['password'], PASSWORD_BCRYPT)]);
+         }
+
+        
+         return redirect('/colaboradores', 'refresh');
+          
+      }catch (\Throwable $th) {
+         print_r($th->getMessage());
+         //return redirect('/login', 'refresh');
+      }      
+   }
+   public function register(){
       try {
          $this->load->library('form_validation');
          $this->form_validation->set_data($this->input->post());

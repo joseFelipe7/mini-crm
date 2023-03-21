@@ -2,18 +2,19 @@
    <div class="card w-100" >
       <div class="card-body">
          <h5 class="card-title text-center">Novo colaborador</h5>
-         <form action="register" method="post" id="form-collaborator">
+         <form action="<?=base_url()?>/colaboradores/save" method="post" id="form-collaborator">
+            <input type="hidden" name="id" value="<?= isset($collaborator)?$collaborator->id:0 ?>">
             <div class="mb-3">
-               <label for="exampleInputEmail1" class="form-label">Nome</label>
-               <input type="text" class="form-control" placeholder="Nome" name="name" id="input-name">
+               <label for="input-name" class="form-label">Nome</label>
+               <input type="text" class="form-control" placeholder="Nome" name="name" value="<?= isset($collaborator)?$collaborator->name:'' ?>" id="input-name">
             </div>
             <div class="mb-3">
-               <label for="exampleInputEmail1" class="form-label">Email</label>
-               <input type="email" class="form-control" placeholder="Email" name="email" id="input-email">
+               <label for="input-email" class="form-label">Email</label>
+               <input type="email" class="form-control" placeholder="Email" name="email" value="<?= isset($collaborator)?$collaborator->email:'' ?>" id="input-email">
             </div>
             <div class="mb-3">
-               <label for="exampleInputPassword1" class="form-label">Senha</label>
-               <input type="password" class="form-control" placeholder="Senha" name="password" id="input-pass">
+               <label for="input-pass" class="form-label">Senha</label>
+               <input <?= isset($collaborator)?'readonly':''?> type="password" class="form-control" placeholder="Senha" value="<?= isset($collaborator)?$collaborator->email:'' ?>" name="password" id="input-pass">
             </div>
             <div>
                <button  type="submit" class="btn btn-primary">Cadastrar</button>
