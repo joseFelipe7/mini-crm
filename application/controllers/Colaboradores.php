@@ -61,6 +61,18 @@ class Colaboradores extends CI_Controller {
          //return redirect('/login', 'refresh');
       }      
    }
+   public function delete($id){
+      try {
+
+         $this->collaborator->delete($id);
+        
+         return redirect('/colaboradores', 'refresh');
+          
+      }catch (\Throwable $th) {
+         print_r($th->getMessage());
+         //return redirect('/login', 'refresh');
+      }      
+   }
    public function register(){
       try {
          $this->load->library('form_validation');

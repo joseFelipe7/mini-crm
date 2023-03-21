@@ -25,6 +25,12 @@ class CollaboratorModel extends CI_Model {
         return $this->db->query($sql, [$id])->row();
 
     }
+    public function delete($id){
+        $this->db->query('UPDATE collaborator SET status_active = 0 WHERE id = ?', [$id]);
+
+        return ;
+
+    }
     public function list($page, $itensPerPage, $sort, $filter){
         $this->load->library('pagination_custom');
 
