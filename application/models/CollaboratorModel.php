@@ -36,39 +36,45 @@ class CollaboratorModel extends CI_Model {
 
         $startPosition = $this->pagination_custom->itemStartPage($page, $itensPerPage);
         $sort = $this->pagination_custom->querySort($sort);
-        $filter = $this->pagination_custom->queryFilter($filter, ['name', 'email'], "AND");  
+        $filter = $this->pagination_custom->queryFilter($filter, ['name', 'email']);  
         
         $sql = "SELECT 
                     c.id,
                     c.name,
                     c.email,
+                    c.type_collaborator,
+                    t.name type_collaborator_name,
                     c.created_at
                 FROM collaborator c
                 LEFT JOIN logins l ON l.id_collaborator = c.id
-                WHERE c.type_collaborator = 1 AND c.status_active $filter
+                LEFT JOIN types t on t.id = c.type_collaborator
+                WHERE c.status_active = 1 
+                HAVING $filter
                 $sort
                 LIMIT $startPosition, $itensPerPage";
         return $this->db->query($sql)->result();
     }
     public function listTotal($filter){
         $this->load->library('pagination_custom');
-        $filter = $this->pagination_custom->queryFilter($filter, ['name', 'email'], "AND");
+        $filter = $this->pagination_custom->queryFilter($filter, ['name', 'email']);
         $sql = "SELECT 
                     c.id,
                     c.name,
                     c.email,
+                    c.type_collaborator,
+                    t.name type_collaborator_name,
                     c.created_at
                 FROM collaborator c
                 LEFT JOIN logins l ON l.id_collaborator = c.id
-                WHERE c.type_collaborator = 1 AND c.status_active $filter";
+                LEFT JOIN types t on t.id = c.type_collaborator
+                WHERE c.status_active = 1
+                HAVING $filter";
         return $this->db->query($sql)->num_rows();
     }
     public function update($id, $data){
         $this->db->trans_begin(); 
         $this->db->query('UPDATE collaborator SET type_collaborator = 1, email = ?, name = ? WHERE id = ?', [$data['email'], $data['name'], $id]);
-        // $insertId = $this->db->insert_id();
-
-        // $this->db->query('INSERT INTO logins SET id_collaborator = ?, password = ?', [$insertId, $data['pass']]);
+        
         if($this->db->trans_status() === FALSE){ 
             $this->db->trans_rollback(); 
             return false;
@@ -77,7 +83,17 @@ class CollaboratorModel extends CI_Model {
             return true;
         }
     }
-    public function createLogin($data){
+    public function insert($data){
+        if($data['type_collaborator'] == 1){
+            $this->createLogin($data);
+        }
+        else if($data['type_collaborator'] == 2){
+            $this->createProvider($data);
+
+        }
+        
+    }
+    private function createLogin($data){
             $this->db->trans_begin(); 
             $this->db->query('INSERT INTO collaborator SET type_collaborator = 1, email = ?, name = ?', [$data['email'], $data['name']]);
             $insertId = $this->db->insert_id();
@@ -91,8 +107,18 @@ class CollaboratorModel extends CI_Model {
                 return true;
             }
     }
-    public function createProvider($email){
-        $sql = "SELECT email, password FROM logins WHERE email = ?";
-        return $this->db->query($sql, [$email])->row();
+    private function createProvider($data){
+        $this->db->trans_begin(); 
+        $this->db->query('INSERT INTO collaborator SET type_collaborator = 2 , email = ?, name = ?', [$data['email'], $data['name']]);
+        $insertId = $this->db->insert_id();
+        $this->db->query('INSERT INTO providers SET id_collaborator = ?', [$insertId]);
+        die();
+        if($this->db->trans_status() === FALSE){ 
+            $this->db->trans_rollback(); 
+            return false;
+        }else{
+            $this->db->trans_commit (); 
+            return true;
+        }
     }
 }

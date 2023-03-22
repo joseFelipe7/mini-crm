@@ -14,7 +14,6 @@ class Colaboradores extends CI_Controller {
       $data = array() ;
       $data['title'] = 'Colaboradores';
       $this->load->library('pagination_custom');
-      print_r($this->pagination_custom->test());
       
       //$data['collaborator'] = $this->collaborator->list();
       $data['collaborator'] = [];
@@ -50,7 +49,7 @@ class Colaboradores extends CI_Controller {
             $this->collaborator->update($input['id'], ["name"=> $input['name'],"email"=>$input['email']]);
 
          }else{
-            $this->collaborator->createLogin(["name"=> $input['name'],"email"=>$input['email'], "pass"=>password_hash($input['password'], PASSWORD_BCRYPT)]);
+            $this->collaborator->insert(["name"=> $input['name'],"email"=>$input['email'], "type_collaborator" => $input['type_collaborator'], "pass"=>password_hash($input['password'], PASSWORD_BCRYPT)]);
          }
 
         
@@ -65,12 +64,10 @@ class Colaboradores extends CI_Controller {
       try {
 
          $this->collaborator->delete($id);
-        
          return redirect('/colaboradores', 'refresh');
           
       }catch (\Throwable $th) {
          print_r($th->getMessage());
-         //return redirect('/login', 'refresh');
       }      
    }
    public function register(){

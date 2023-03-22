@@ -42,6 +42,7 @@ async function listCollaborator(page = 1){
                </td>
                <td>${item.name}</td>
                <td>${item.email}</td>
+               <td>${item.type_collaborator_name}</td>
                <td class="table-action">
                   <a href="colaboradores/editar/${item.id}" class="action-icon"> <i class="fa-sharp fa-solid fa-pen-to-square"></i></a>
                   <a href="colaboradores/delete/${item.id}" class="action-icon"> <i class="fa-sharp fa-solid fa-trash"></i></a>

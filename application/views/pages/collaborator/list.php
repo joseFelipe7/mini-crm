@@ -15,6 +15,7 @@
 						<th>#</th>
 						<th>Nome</th>
 						<th>Email</th>
+						<th>Tipo de usuario</th>
 						<th>Action</th>
 					</tr>
 				</thead>

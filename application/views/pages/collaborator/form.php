@@ -5,6 +5,14 @@
          <form action="<?=base_url()?>/colaboradores/save" method="post" id="form-collaborator">
             <input type="hidden" name="id" value="<?= isset($collaborator)?$collaborator->id:0 ?>">
             <div class="mb-3">
+               <label for="input-name" class="form-label">Tipo de colaborador</label>
+               <select class="form-control" name="type_collaborator" id="type-collaborator">
+                  <option selected disabled>Escolha</option>
+                  <option value="1">Administrativo</option>
+                  <option value="2">Fornecedor</option>
+               </select>
+           </div>
+            <div class="mb-3">
                <label for="input-name" class="form-label">Nome</label>
                <input type="text" class="form-control" placeholder="Nome" name="name" value="<?= isset($collaborator)?$collaborator->name:'' ?>" id="input-name">
             </div>
