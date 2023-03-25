@@ -33,7 +33,7 @@
 						</a>
 					</li>
 					<li>
-						<a href="#" class="nav-link active">
+						<a href="<?= base_url()?>colaboradores" class="nav-link active">
 							<svg class="bi me-2" width="16" height="16">
 								<use xlink:href="#speedometer2"></use>
 							</svg>
@@ -41,7 +41,7 @@
 						</a>
 					</li>
 					<li>
-						<a href="#" class="nav-link text-white">
+						<a href="<?= base_url()?>colaboradores" class="nav-link text-white">
 							<svg class="bi me-2" width="16" height="16">
 								<use xlink:href="#table"></use>
 							</svg>
@@ -49,7 +49,7 @@
 						</a>
 					</li>
 					<li>
-						<a href="#" class="nav-link text-white">
+						<a href="<?= base_url()?>pedidos" class="nav-link text-white">
 							<svg class="bi me-2" width="16" height="16">
 								<use xlink:href="#grid"></use>
 							</svg>

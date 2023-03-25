@@ -8,8 +8,8 @@
                <label for="input-name" class="form-label">Tipo de colaborador</label>
                <select class="form-control" name="type_collaborator" id="type-collaborator">
                   <option selected disabled>Escolha</option>
-                  <option value="1">Administrativo</option>
-                  <option value="2">Fornecedor</option>
+                  <option value="1" <?= (isset($collaborator) && $collaborator->type_collaborator==1)?'selected':''; ?>>Administrativo</option>
+                  <option value="2" <?= (isset($collaborator) && $collaborator->type_collaborator==2)?'selected':''; ?>>Fornecedor</option>
                </select>
            </div>
             <div class="mb-3">
@@ -20,10 +20,13 @@
                <label for="input-email" class="form-label">Email</label>
                <input type="email" class="form-control" placeholder="Email" name="email" value="<?= isset($collaborator)?$collaborator->email:'' ?>" id="input-email">
             </div>
+            <?php if(!isset($collaborator)){ ?>
             <div class="mb-3">
                <label for="input-pass" class="form-label">Senha</label>
                <input <?= isset($collaborator)?'readonly':''?> type="password" class="form-control" placeholder="Senha" value="<?= isset($collaborator)?$collaborator->email:'' ?>" name="password" id="input-pass">
             </div>
+            <?php } ?>
+
             <div>
                <button  type="submit" class="btn btn-primary">Cadastrar</button>
                <button id="btn-login" type="button" class="btn btn-secondary">Voltar</button>

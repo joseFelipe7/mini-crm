@@ -5,18 +5,19 @@
 			<div style="display: flex; justify-content: space-between;" class="mt-4">
 				<div style="display: flex; flex-direction: column;">
 					<input type="text" placeholder="Pesquisar..." id="search-collaborator">
-					<small>Buscar Pedidos</small>
+					<small>Buscar pedidos</small>
 				</div>
-				<a href="<?= base_url()?>colaboradores/novo"> <button>Novo pedidos</button></a>
+				<a href="<?= base_url()?>pedidos/novo"> <button>Novo pedidos</button></a>
 			</div>
 			<table class="table table-striped table-centered mb-0">
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>Nome</th>
-						<th>Email</th>
-						<th>Tipo de usuario</th>
-						<th>Action</th>
+						<th>Fornecedor</th>
+						<th>Status do pedido</th>
+						<th>Quantidade de itens</th>
+						<th>Data do pedido</th>
+						<th>Ações</th>
 					</tr>
 				</thead>
 				<tbody id="tbody-collaborator">
@@ -57,4 +58,4 @@
 		</div>
 	</div>
 </div>
-<script src="<?=base_url('public/assets/js/collaborator/list.js');?>"></script>
+<script src="<?=base_url('public/assets/js/order/list.js');?>"></script>

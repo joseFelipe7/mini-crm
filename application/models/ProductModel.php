@@ -1,6 +1,6 @@
 <?php
 
-class CollaboratorModel extends CI_Model {
+class ProductModel extends CI_Model {
 
     public function index($email){
         $sql = "SELECT 
@@ -31,27 +31,14 @@ class CollaboratorModel extends CI_Model {
         return ;
 
     }
-    public function list($page, $itensPerPage, $sort, $filter){
-        $this->load->library('pagination_custom');
-
-        $startPosition = $this->pagination_custom->itemStartPage($page, $itensPerPage);
-        $sort = $this->pagination_custom->querySort($sort);
-        $filter = $this->pagination_custom->queryFilter($filter, ['name', 'email']);  
-        
+    public function list(){
         $sql = "SELECT 
-                    c.id,
-                    c.name,
-                    c.email,
-                    c.type_collaborator,
-                    t.name type_collaborator_name,
-                    c.created_at
-                FROM collaborator c
-                LEFT JOIN logins l ON l.id_collaborator = c.id
-                LEFT JOIN types t on t.id = c.type_collaborator
-                WHERE c.status_active = 1 
-                HAVING $filter
-                $sort
-                LIMIT $startPosition, $itensPerPage";
+                    id, 
+                    name, 
+                    price, 
+                    description 
+                FROM products 
+                WHERE status_active = 1";
         return $this->db->query($sql)->result();
     }
     public function listTotal($filter){
@@ -86,8 +73,10 @@ class CollaboratorModel extends CI_Model {
     public function insert($data){
         if($data['type_collaborator'] == 1){
             $this->createLogin($data);
-        }else if($data['type_collaborator'] == 2){
+        }
+        else if($data['type_collaborator'] == 2){
             $this->createProvider($data);
+
         }
         
     }
@@ -110,7 +99,7 @@ class CollaboratorModel extends CI_Model {
         $this->db->query('INSERT INTO collaborator SET type_collaborator = 2 , email = ?, name = ?', [$data['email'], $data['name']]);
         $insertId = $this->db->insert_id();
         $this->db->query('INSERT INTO providers SET id_collaborator = ?', [$insertId]);
-
+        die();
         if($this->db->trans_status() === FALSE){ 
             $this->db->trans_rollback(); 
             return false;

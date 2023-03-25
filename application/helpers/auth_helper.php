@@ -4,5 +4,5 @@ function userAuth(){
     
     if($CI->session->user) return true;
 
-    return redirect('/login','refresh');
+    return redirect(base_url().'login','refresh');
 }

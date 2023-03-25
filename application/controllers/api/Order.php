@@ -3,12 +3,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
    
 require APPPATH . 'libraries/REST_Controller.php';
      
-class Login extends REST_Controller {
-    public function index_get()
-	{
-        $data = array("item"=>"sds");
-     
-        $this->response($data, REST_Controller::HTTP_OK);
+class Order extends REST_Controller {
+   public function index_get(){
+      $this->load->library('pagination_custom');
+
+      $page = $this->input->get('page') ?: 1;
+      $perPage = $this->input->get('per_page') ?: 10;
+      $sort = $this->input->get('sort') ?: null;
+      $filter = $this->input->get('filter') ?: [];
+
+      if (!$this->pagination_custom->validSort($sort, ['provider', 'status_order','quantity_products', 'date_order'])){
+         return $this->response(["message"=>"1 errors were found","errors"=>["invalid attribute or format of sort"] ], REST_Controller::HTTP_BAD_REQUEST);
+      }
+
+      if (!$this->pagination_custom->validFilter($filter, ['provider', 'status_order','quantity_products', 'date_order'])){
+         return $this->response(["message"=>"1 errors were found","errors"=>["invalid attribute or format of filter"] ], REST_Controller::HTTP_BAD_REQUEST);
+      }
+      $this->load->model('OrderModel', 'order');
+      
+      $orders =  $this->order->list($page, $perPage, $sort, $filter);
+      $totalOrders =  $this->order->listTotal($filter);
+      
+      $meta =  $this->pagination_custom->transformMeta($page, $perPage, $totalOrders);
+
+      $this->response(array(
+                           "meta"=>$meta, 
+                           "data"=>["orders"=>$orders]
+                     ), REST_Controller::HTTP_OK);
 	}
     public function index_post(){
         $this->load->library('form_validation');
@@ -21,7 +42,7 @@ class Login extends REST_Controller {
             if(!$this->form_validation->run()) return $this->response(array("message"=>"invalid fields", "errors"=>validation_errors()), REST_Controller::HTTP_UNPROCESSABLE_ENTITY); 
             
             $input = $this->post();
-            $collaborator = $this->collaborator->index($input['email']);
+            $collaborator = $this->order->index($input['email']);
 
             if(!$collaborator) return $this->response(array("message"=>"wrong credentials", "errors"=>["your email was not found"]), REST_Controller::HTTP_UNAUTHORIZED);
             

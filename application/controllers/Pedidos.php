@@ -1,60 +1,70 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Colaboradores extends CI_Controller {
+class Pedidos
+ extends CI_Controller {
 
    
    public function __construct()
    {
       parent::__construct();
       $this->load->model('CollaboratorModel', 'collaborator');
+      $this->load->model('ProductModel', 'product');
+      $this->load->model('ProviderModel', 'provider');
+      $this->load->model('OrderModel', 'order');
+      $this->load->helper('Auth');
+
    }
    
    public function index(){
       $data = array() ;
-      $data['title'] = 'Colaboradores';
+      $data['title'] = 'Pedidos';
       $this->load->library('pagination_custom');
       
-      //$data['collaborator'] = $this->collaborator->list();
+      //$data['collaborator'] = $this->product->list();
       $data['collaborator'] = [];
-      $this->template->load('template_dashboard', 'pages/collaborator/list', $data);
+      $this->template->load('template_dashboard', 'pages/orders/list', $data);
    }
    public function novo(){
       $data = array('title'=>'Home') ;
+      $data['products'] = $this->product->list();
       
-      $this->template->load('template_dashboard', 'pages/collaborator/form', $data);
+      $data['provider'] = $this->provider->list();
+      
+      $this->template->load('template_dashboard', 'pages/orders/form', $data);
    }
    public function editar($id){
       $data = array('title'=>'Home') ;
       $data['collaborator'] = $this->collaborator->getOne($id);
-      $this->template->load('template_dashboard', 'pages/collaborator/form', $data);
+      $this->template->load('template_dashboard', 'pages/orders/form', $data);
    }
    public function save(){
       try {
+         userAuth();
          $this->load->library('form_validation');
          $this->form_validation->set_data($this->input->post());
-         $this->form_validation->set_rules('name', 'Nome', 'trim|required');
-         $this->form_validation->set_rules('email', 'E-mail', 'trim|required');
-         $this->form_validation->set_rules('password', 'Senha', 'trim|required');
-
-         if(!$this->form_validation->run()) return redirect(base_url().'login', 'refresh');
-
-         $input = $this->input->post();
+         $this->form_validation->set_rules('id_provider', 'Fornecedor', 'trim|required');
+         if(!$this->form_validation->run() || count($this->input->post('products')) < 1) return redirect(base_url().'login', 'refresh');
          
-         $collaborator = $this->collaborator->index($input['email']);
-
-         if($collaborator && $collaborator->id != $input['id']) return redirect(base_url().'login', 'refresh');
+         $input = $this->input->post();
+         $data = [
+            'idProvider' => $input['id_provider'],
+            'observation' => $input['observation']
+         ];
+         foreach ($input['products'] as $key => $value) {
+            $data['products'][$key]['id'] = $value;
+            $data['products'][$key]['amount'] = $input['productsQuantity'][$key];
+         }     
+         
 
          if($input['id'] != 0){
-            print_r('a');
-            $this->collaborator->update($input['id'], ["name"=> $input['name'],"email"=>$input['email']]);
-
+            //$this->order->update($input['id'], ["name"=> $input['name'],"email"=>$input['email']]);
          }else{
-            $this->collaborator->insert(["name"=> $input['name'],"email"=>$input['email'], "type_collaborator" => $input['type_collaborator'], "pass"=>password_hash($input['password'], PASSWORD_BCRYPT)]);
+            $this->order->insert($data);
          }
 
         
-         return redirect(base_url().'colaboradores', 'refresh');
+         return redirect(base_url().'pedidos', 'refresh');
           
       }catch (\Throwable $th) {
          print_r($th->getMessage());

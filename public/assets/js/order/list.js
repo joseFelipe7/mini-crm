@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 async function listPagination(){
    let searchCollaborator = document.getElementById('search-collaborator')
-   let request = await fetch(`http://localhost/login/api/collaborator?page=${page}&filter[search]=${searchCollaborator.value}`,{
+   let request = await fetch(`http://localhost/login/api/order?page=${page}&filter[search]=${searchCollaborator.value}`,{
       method:"GET",
       headers:{
             "Content-Type":'application/json'
@@ -32,7 +32,7 @@ async function pagination(pageData){
 }
 async function listCollaborator(page = 1){
    let searchCollaborator = document.getElementById('search-collaborator')
-   let request = await fetch(`http://localhost/login/api/collaborator?page=${page}&filter[search]=${searchCollaborator.value}`,{
+   let request = await fetch(`http://localhost/login/api/order?page=${page}&filter[search]=${searchCollaborator.value}`,{
       method:"GET",
       headers:{
             "Content-Type":'application/json'
@@ -55,19 +55,20 @@ async function listCollaborator(page = 1){
    document.getElementById('pagination-container').innerHTML = `${pagination}`
 
    let td = ''
-   if(dataJson.data.collaborators.length == 0){
+   if(dataJson.data.orders.length == 0){
       td =`<tr class="text-center"> <td colspan="5" class="table-user text-center">Sem dados</td></tr>`
    }
-   dataJson.data.collaborators.forEach(item => {
+   dataJson.data.orders.forEach(item => {
       td += `
             <tr>
                <td class="table-user">
                   <!-- <img src="assets/images/users/avatar-2.jpg" alt="table-user" class="me-2 rounded-circle" /> -->
                   ${item.id}
                </td>
-               <td>${item.name}</td>
-               <td>${item.email}</td>
-               <td>${item.type_collaborator_name}</td>
+               <td>${item.provider}</td>
+               <td>${item.status_order}</td>
+               <td>${item.quantity_products}</td>
+               <td>${item.date_order}</td>
                <td class="table-action">
                   <a href="colaboradores/editar/${item.id}" class="action-icon"> <i class="fa-sharp fa-solid fa-pen-to-square"></i></a>
                   <a href="colaboradores/delete/${item.id}" class="action-icon"> <i class="fa-sharp fa-solid fa-trash"></i></a>
