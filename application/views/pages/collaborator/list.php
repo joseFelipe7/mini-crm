@@ -1,29 +1,28 @@
 <div class="mt-4">
-	<div class="card">
+	<div class="card  card-custom">
 		<div class="card-body">
-			<h5 class="card-title">Pedidos</h5>
-			<div style="display: flex; justify-content: space-between;" class="mt-4">
-				<div style="display: flex; flex-direction: column;">
-					<input type="text" placeholder="Pesquisar..." id="search-collaborator">
-					<small>Buscar Pedidos</small>
+			<h5 class="card-title">Colaboradores</h5>
+			<div class="d-flex justify-content-between mt-4">
+				<div class="d-flex flex-column">
+					<input type="text" class="form-control" placeholder="Pesquisar..." id="search-collaborator">
+					<small class="text-color-default">Buscar colaborador</small>
 				</div>
-				<a href="<?= base_url()?>colaboradores/novo"> <button>Novo pedidos</button></a>
+				<a href="<?= base_url()?>colaboradores/novo"> <button class="btn btn-default-custom">Novo colaborador</button></a>
 			</div>
-			<table class="table table-striped table-centered mb-0">
-				<thead>
+			<table class="table table-striped table-centered mb-0 mt-3">
+				<thead class="table-header-custom">
 					<tr>
 						<th>#</th>
 						<th>Nome</th>
 						<th>Email</th>
 						<th>Tipo de usuario</th>
-						<th>Action</th>
+						<th>Ações</th>
 					</tr>
 				</thead>
 				<tbody id="tbody-collaborator">
 					<?php foreach ($collaborator as $key => $value){ ?>
 						<tr>
 							<td class="table-user">
-								<!-- <img src="assets/images/users/avatar-2.jpg" alt="table-user" class="me-2 rounded-circle" /> -->
 								<?= $value->id ?>
 							</td>
 							<td><?= $value->name ?></td>

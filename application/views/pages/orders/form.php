@@ -30,7 +30,7 @@
                </div>
                
             </div>
-            <div class="card mb-3" id="container-products" >
+            <div class="card card-custom mb-3" id="container-products" >
                <div style="display: flex; justify-content: space-between; margin: 0px 15px; margin: 5px 15px; border-bottom: 1px solid; padding: 5px;"> 
                   <div>produto numero 1</div>
                   <div style="display:flex;">

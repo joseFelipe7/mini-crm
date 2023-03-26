@@ -2,7 +2,7 @@
 
 class ProductModel extends CI_Model {
 
-    public function index($email){
+    public function index(){
         $sql = "SELECT 
                     id, 
                     name, 
@@ -10,7 +10,7 @@ class ProductModel extends CI_Model {
                     description 
                 FROM products 
                 WHERE status_active = 1";
-        return $this->db->query($sql, [$email])->row();
+        return $this->db->query($sql)->row();
     }
     public function getOne($id){
         $sql = "SELECT 

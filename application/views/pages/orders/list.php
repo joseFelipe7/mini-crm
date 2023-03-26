@@ -1,16 +1,16 @@
 <div class="mt-4">
-	<div class="card">
+	<div class="card  card-custom">
 		<div class="card-body">
 			<h5 class="card-title">Pedidos</h5>
-			<div style="display: flex; justify-content: space-between;" class="mt-4">
-				<div style="display: flex; flex-direction: column;">
-					<input type="text" placeholder="Pesquisar..." id="search-collaborator">
-					<small>Buscar pedidos</small>
+			<div class="d-flex justify-content-between mt-4">
+				<div class="d-flex flex-column">
+					<input type="text" class="form-control"  placeholder="Pesquisar..." id="search-collaborator">
+					<small class="text-color-default">Buscar pedidos</small>
 				</div>
-				<a href="<?= base_url()?>pedidos/novo"> <button>Novo pedidos</button></a>
+				<a href="<?= base_url()?>pedidos/novo"> <button  class="btn btn-default-custom">Novo pedidos</button></a>
 			</div>
-			<table class="table table-striped table-centered mb-0">
-				<thead>
+			<table class="table table-striped table-centered mb-0 mt-3">
+				<thead class="table-header-custom">
 					<tr>
 						<th>#</th>
 						<th>Fornecedor</th>

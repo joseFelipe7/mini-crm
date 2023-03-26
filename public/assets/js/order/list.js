@@ -70,8 +70,8 @@ async function listCollaborator(page = 1){
                <td>${item.quantity_products}</td>
                <td>${item.date_order}</td>
                <td class="table-action">
-                  <a href="colaboradores/editar/${item.id}" class="action-icon"> <i class="fa-sharp fa-solid fa-pen-to-square"></i></a>
-                  <a href="colaboradores/delete/${item.id}" class="action-icon"> <i class="fa-sharp fa-solid fa-trash"></i></a>
+                  <a href="colaboradores/editar/${item.id}" class="action-icon"> <i class="fa-sharp fa-solid fa-pen-to-square icon-edit"></i></a>
+                  <a href="colaboradores/delete/${item.id}" class="action-icon"> <i class="fa-sharp fa-solid fa-trash icon-del"></i></a>
                </td>
             </tr>
       `
