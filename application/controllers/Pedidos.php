@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Pedidos
  extends CI_Controller {
 
-   
+   private $data = array() ;
    public function __construct()
    {
       parent::__construct();
@@ -14,29 +14,30 @@ class Pedidos
       $this->load->model('OrderModel', 'order');
       $this->load->helper('Auth');
 
+      
+      $this->data['title'] = 'Pedidos';
+      $this->data['sidebarOption'] = 'order';
    }
    
    public function index(){
-      $data = array() ;
-      $data['title'] = 'Pedidos';
       $this->load->library('pagination_custom');
       
-      //$data['collaborator'] = $this->product->list();
-      $data['collaborator'] = [];
-      $this->template->load('template_dashboard', 'pages/orders/list', $data);
+      $this->data['collaborator'] = $this->product->index();
+      $this->data['collaborator'] = [];
+      $this->template->load('template_dashboard', 'pages/orders/list', $this->data);
    }
    public function novo(){
-      $data = array('title'=>'Home') ;
-      $data['products'] = $this->product->list();
+      $this->data['title'] = 'Novo Pedido';
+      $this->data['products'] = $this->product->index();
       
-      $data['provider'] = $this->provider->list();
+      $this->data['provider'] = $this->provider->list();
       
-      $this->template->load('template_dashboard', 'pages/orders/form', $data);
+      $this->template->load('template_dashboard', 'pages/orders/form', $this->data);
    }
    public function editar($id){
-      $data = array('title'=>'Home') ;
-      $data['collaborator'] = $this->collaborator->getOne($id);
-      $this->template->load('template_dashboard', 'pages/orders/form', $data);
+      $this->data['title'] = 'Editar Pedido';
+      $this->data['collaborator'] = $this->collaborator->getOne($id);
+      $this->template->load('template_dashboard', 'pages/orders/form', $this->data);
    }
    public function save(){
       try {

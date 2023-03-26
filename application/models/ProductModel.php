@@ -4,12 +4,12 @@ class ProductModel extends CI_Model {
 
     public function index($email){
         $sql = "SELECT 
-            c.id, 
-            c.email, 
-            l.password 
-        FROM collaborator c
-        LEFT JOIN logins l ON l.id_collaborator = c.id
-        WHERE c.email = ?";
+                    id, 
+                    name, 
+                    price, 
+                    description 
+                FROM products 
+                WHERE status_active = 1";
         return $this->db->query($sql, [$email])->row();
     }
     public function getOne($id){
@@ -31,30 +31,37 @@ class ProductModel extends CI_Model {
         return ;
 
     }
-    public function list(){
+    public function list($page, $itensPerPage, $sort, $filter){
+        $this->load->library('pagination_custom');
+
+        $startPosition = $this->pagination_custom->itemStartPage($page, $itensPerPage);
+        $sort = $this->pagination_custom->querySort($sort);
+        $filter = $this->pagination_custom->queryFilter($filter, ['name', 'price']);  
+        
         $sql = "SELECT 
                     id, 
                     name, 
-                    price, 
-                    description 
+                    CONCAT('R$ ', FORMAT(price, 2, 'de_DE')) as price, 
+                    description,
+                    DATE_FORMAT(created_at, '%d/%m/%Y')  as created_at
                 FROM products 
-                WHERE status_active = 1";
+                WHERE status_active = 1
+                HAVING $filter
+                $sort
+                LIMIT $startPosition, $itensPerPage";
         return $this->db->query($sql)->result();
     }
     public function listTotal($filter){
         $this->load->library('pagination_custom');
-        $filter = $this->pagination_custom->queryFilter($filter, ['name', 'email']);
+        $filter = $this->pagination_custom->queryFilter($filter, ['name', 'price']);
         $sql = "SELECT 
-                    c.id,
-                    c.name,
-                    c.email,
-                    c.type_collaborator,
-                    t.name type_collaborator_name,
-                    c.created_at
-                FROM collaborator c
-                LEFT JOIN logins l ON l.id_collaborator = c.id
-                LEFT JOIN types t on t.id = c.type_collaborator
-                WHERE c.status_active = 1
+                    id, 
+                    name, 
+                    CONCAT('R$ ', FORMAT(price, 2, 'de_DE')) as price,
+                    description,
+                    DATE_FORMAT(created_at, '%d/%m/%Y')  as created_at
+                FROM products 
+                WHERE status_active = 1
                 HAVING $filter";
         return $this->db->query($sql)->num_rows();
     }
@@ -71,14 +78,7 @@ class ProductModel extends CI_Model {
         }
     }
     public function insert($data){
-        if($data['type_collaborator'] == 1){
-            $this->createLogin($data);
-        }
-        else if($data['type_collaborator'] == 2){
-            $this->createProvider($data);
-
-        }
-        
+        $this->db->query('INSERT INTO products SET name = ?, price = ?, description = ?', [$data['name'], $data['price'], $data['description']]);
     }
     private function createLogin($data){
             $this->db->trans_begin(); 

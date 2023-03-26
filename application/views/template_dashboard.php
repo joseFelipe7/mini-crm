@@ -8,7 +8,9 @@
 	<title><?= $title; ?></title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<script src="https://cdn.jsdelivr.net/gh/lagden/vanilla-masker@lagden/build/vanilla-masker.min.js"></script>
+
 </head>
 
 <body style="position: relative; min-height: 100vh;">
@@ -33,7 +35,7 @@
 						</a>
 					</li>
 					<li>
-						<a href="<?= base_url()?>colaboradores" class="nav-link active">
+						<a href="<?= base_url()?>colaboradores" class="nav-link <?= $sidebarOption=='collaborator'?'active':'text-white'?>">
 							<svg class="bi me-2" width="16" height="16">
 								<use xlink:href="#speedometer2"></use>
 							</svg>
@@ -41,7 +43,7 @@
 						</a>
 					</li>
 					<li>
-						<a href="<?= base_url()?>colaboradores" class="nav-link text-white">
+						<a href="<?= base_url()?>produtos" class="nav-link <?= $sidebarOption=='product'?'active':'text-white'?>">
 							<svg class="bi me-2" width="16" height="16">
 								<use xlink:href="#table"></use>
 							</svg>
@@ -49,7 +51,7 @@
 						</a>
 					</li>
 					<li>
-						<a href="<?= base_url()?>pedidos" class="nav-link text-white">
+						<a href="<?= base_url()?>pedidos" class="nav-link <?= $sidebarOption=='order'?'active':'text-white'?>">
 							<svg class="bi me-2" width="16" height="16">
 								<use xlink:href="#grid"></use>
 							</svg>
