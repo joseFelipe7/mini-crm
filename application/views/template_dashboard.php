@@ -20,11 +20,32 @@ body{
 a{
 	text-decoration: none; 
 }
+ul{
+	list-style-type: none;
+}
 .icon-edit{
 	color:#f39200
 }
 .icon-del{
 	color:#f30036
+}
+.btn-edit{
+	border: solid 1px #f39200;
+    transition: 0.3s;
+	color:#f39200
+}
+.btn-edit:hover{
+	color:#FFF;
+	background:#f39200
+}
+.btn-del{
+	border: solid 1px #f30036;
+    transition: 0.3s;
+	color:#f30036
+}
+.btn-del:hover{
+	color:#FFF;
+	background:#f30036
 }
 .container-sidebar{
 	width: 100%; 
@@ -84,6 +105,11 @@ a{
 	border: none;
     box-shadow: 1.5px 2px 10px;
  }
+.title-card-custom{
+	font-size: 26px;
+    font-weight: 600;
+    color: #333;
+}
 
 </style>
 
